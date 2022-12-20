@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./jquery.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .chatBox {
+            position: relative;
+            
+            border: 2px solid black;
+            margin: 20px auto;
+            width: 1404px;
+            height: 804px;
+        }
+        .loginArea {
+            position: absolute;
+            left: 0;
+            top: 0;
+            float: left;
+
+            border-right: 2px solid black;
+
+            width: 400px;
+            height: 800px;
+            background-color: aquamarine;
+        }
+        .chatArea {
+            position: absolute;
+            right: 0;
+            top: 0;
+            float: left;
+
+            border-bottom: 2px solid black;
+            width: 1000px;
+            height: 600px;
+            background-color: #e0e0e0;
+        }
+        .editingArea {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            float: left;
+
+            width: 1000px;
+            height: 200px;
+        }
+        .login_img {
+            position: absolute;
+            left: 50px;
+            top: 100px;
+            display: inline-block;
+            overflow: hidden;
+
+            border-radius: 35px;
+            width: 70px;
+            height: 70px;
+            background-color: #fff;
+        }
+        .login_img>img {
+            width: 70px;
+            height: 70px;
+        }
+        .login_name {
+            position: absolute;
+            left: 120px;
+            top: 120px;
+            display: inline-block;
+
+            border-radius: 35px;
+            width: 150px;
+            height: 30px;
+            background-color: #fff;
+
+            line-height: 30px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .register_btn {
+            position: absolute;
+            bottom: 150px;
+            left: 100px;
+            display: inline-block;
+
+            border: 5px solid black;
+            border-radius: 35px;
+            width: 200px;
+            height: 50px;
+            background-color: #fff;
+
+            cursor: pointer;
+            font-size: 20px;
+            text-align: center;
+            font-weight: 700;
+            line-height: 40px;
+            color: royalblue;
+        }
+        .login_btn {
+            position: absolute;
+            bottom: 80px;
+            left: 100px;
+            display: inline-block;
+
+            border: 5px solid black;
+            border-radius: 35px;
+            width: 200px;
+            height: 50px;
+            background-color: #fff;
+
+            cursor: pointer;
+            font-size: 20px;
+            text-align: center;
+            font-weight: 700;
+            line-height: 40px;
+            color: royalblue;
+        }
+        .edting {
+            position: absolute;
+            bottom: 0;
+            
+            border: 0;
+            width: 800px;
+            height: 200px;
+
+            outline: none;
+            font-size: 20px;
+            text-indent: 30px;
+        }
+        .send {
+            position: absolute;
+            right: 50px;
+            bottom: 20px;
+            display: inline-block;
+
+            border: 2px solid black;
+            border-radius: 10px;
+            width: 100px;
+            height: 30px;
+            background-color: #fff;
+
+            cursor: pointer;
+            font-size: 20px;
+            line-height: 26px;
+            text-align: center;
+            color: royalblue;
+        }
+        .registerArea,
+        .loginArea_in {
+            position: absolute;
+            display: inline-block;
+            left: 400px;
+            top: 200px;
+
+            border: 5px solid antiquewhite;
+            width: 600px;
+            height: 400px;
+            background:linear-gradient(0deg, pink, antiquewhite);
+
+            visibility: hidden;
+        }
+        .loginArea_in {
+            background:linear-gradient(0deg, royalblue, aquamarine);
+        }
+        .registerArea>span:nth-of-type(1),
+        .loginArea_in>span:nth-of-type(1) {
+            position: absolute;
+            left: 100px;
+            top: 155px;
+        }
+        .register_btn2,
+        .loginArea_in_btn2 {
+            position: absolute;
+            bottom: 50px;
+            left: 200px;
+            display: inline-block;
+
+            border: 5px solid black;
+            border-radius: 35px;
+            width: 200px;
+            height: 50px;
+            background-color: #fff;
+
+            cursor: pointer;
+            font-size: 20px;
+            text-align: center;
+            font-weight: 700;
+            line-height: 40px;
+            color: royalblue;
+        }
+        .register_input,
+        .loginArea_in_input {
+            position: absolute;
+            left: 125px;
+            top: 180px;
+
+            border-radius: 5px;
+            width: 350px;
+            height: 40px;
+
+            outline: none;
+            font-size: 20px;
+            text-indent: 10px;
+        }
+        .register_close,
+        .loginArea_in_close {
+            position: absolute;
+            right: 0;
+            width: 50px;
+            height: 50px;
+
+            line-height: 50px;
+            text-align: center;
+            font-size: 40px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        /* .loginArea_in {
+            visibility: visible;
+        } */
+        .chatArea>ul {
+            overflow: auto;
+
+            padding-top: 30px;
+            width: 1000px;
+            height: 600px;
+        }
+        .chatArea>ul>li {
+            float: left;
+            position: relative;
+
+            margin-bottom: 10px;
+            width: 1000px;
+            height: 60px;
+            
+            list-style: none;
+        }
+        .chatArea>ul>li>span:nth-of-type(1) {
+            position: absolute;
+            left: 90px;
+            display: inline-block;
+
+            width: 60px;
+            height: 60px;
+        }
+        .chatArea>ul>li>span:nth-of-type(1)>img {
+            width: 60px;
+            height: 60px;
+        }
+        .chatArea>ul>li>span:nth-of-type(2) {
+            position: absolute;
+            left: 160px;
+            display: inline-block;
+
+            width: 100px;
+            height: 20px;
+
+            line-height: 20px;
+        }
+        .chatArea>ul>li>span:nth-of-type(3) {
+            position: absolute;
+            left: 160px;
+            bottom: 0;
+            display: inline-block;
+
+            width: 800px;
+            height: 40px;
+
+            line-height: 40px;
+            font-size: 20px;
+            text-indent: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chatBox">
+        <!-- 登录区 -->
+        <div class="loginArea">
+            <span class="login_img"><img></span>
+            <span class="login_name"></span>
+
+            <span class="register_btn">注册</span>
+            <span class="login_btn">登录</span>
+        </div>
+
+        <!-- 聊天区 -->
+        <div class="chatArea">
+            <ul>
+                <!-- <li>
+                    <span>img</span>
+                    <span>name</span>
+                    <span>data</span>
+                </li> -->
+            </ul>
+        </div>
+
+        <!-- 发送区 -->
+        <div class="editingArea">
+            <input type="text" class="edting">
+            <span class="send">发送</span>
+        </div>
+
+        <div class="registerArea">
+            <input type="text" class="register_input">
+            <span>请输入你要注册的用户名:</span>
+            <span class="register_close">x</span>
+            <span class="register_btn2">注册</span>
+        </div>
+
+        <div class="loginArea_in">
+            <input type="text" class="loginArea_in_input">
+            <span>请输入你的用户名:</span>
+            <span class="loginArea_in_close">x</span>
+            <span class="loginArea_in_btn2">登录</span>
+        </div>
+    </div>
+
+    <script>
+        //封装一个http函数(fetch请求)
+        async function http(obj) {
+            //结构赋值
+            let {method,url,params,data,headers} = obj
+            // console.log(method, url, params, data)
+            
+            //params需要处理=>转换成key=value&key=value
+            if(params) {
+                //固定写法: new URLSearchParams(params).toString()
+                let str = new URLSearchParams(params).toString()
+                console.log(str)
+                //拼接到url上去
+                url += '?' + str
+            }
+            // console.log(url)
+
+            //最终结果
+            let res
+            
+            //data需要处理=>此时需要写完整的代码headers
+            if(data) {
+                //如果能进来则表示设置了data
+                res = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type':'application/json',
+                        'Authorization':headers
+                    },
+                    body: JSON.stringify(data)
+                })
+            } else {
+                //此时表示没有设置data
+                res = await fetch(url)
+            }
+
+            //把获取结果经过处理返回出去
+            return res.json()
+        }
+
+        let login_btn = document.querySelector('.login_btn')
+        let register_btn = document.querySelector('.register_btn')
+        let loginArea_in = document.querySelector('.loginArea_in')
+        let registerArea = document.querySelector('.registerArea')
+        login_btn.addEventListener('click', ()=>{   //登录按钮
+            loginArea_in.style.visibility = 'visible'
+        })
+        register_btn.addEventListener('click', ()=>{    //注册按钮
+            registerArea.style.visibility = 'visible'
+        })
+        //关闭登录注册界面
+        loginArea_in.children[2].addEventListener('click', ()=>{
+            loginArea_in.children[0].value = ''
+            loginArea_in.children[1].innerHTML = '请输入你要登录的用户名:'
+            loginArea_in.children[1].style.color = 'black'
+            loginArea_in.style.visibility = 'hidden'
+        })
+        //关闭注册页面
+        registerArea.children[2].addEventListener('click', ()=>{
+            registerArea.children[0].value = ''
+            registerArea.children[1].innerHTML = '请输入你要注册的用户名:'
+            registerArea.children[1].style.color = 'black'
+            registerArea.style.visibility = 'hidden'
+        })
+        //获取数据
+        let chatArea = document.querySelector('.chatArea')
+        async function getAllData() {
+            let result = await http({
+                method: 'get',
+                url: 'http://runninglili.club:8080/getAllMessages'
+            })
+            //渲染数据
+            chatArea.children[0].innerHTML = ''
+            console.log(result)
+            for(let i = 0; i < result.length; i++) {
+                let li = document.createElement('li')
+                li.innerHTML = `
+                    <span><img src="${result[i].avatar}"></span>
+                    <span>${result[i].username}</span>
+                    <span>${result[i].words}</span>
+                `
+                chatArea.children[0].appendChild(li)
+            }
+            chatArea.children[0].scrollTop = 10000 //将滑轮滑倒最下面
+            send_btn.previousElementSibling.value = ''//清空输入框
+        }
+        getAllData()
+
+        //注册
+        let register_btn2 = document.querySelector('.register_btn2')
+        register_btn2.addEventListener('click', ()=> {
+            if(register_btn2.parentNode.children[0].value){ //注册名不为空
+                async function register() {
+                    let result = await http({
+                        method: 'post',
+                        url: 'http://runninglili.club:8080/register',
+                        data: {
+                            username: `${register_btn2.parentNode.children[0].value}`
+                        }
+                    })
+                    if(result.code === 403){    //用户已存在
+                        register_btn2.parentNode.children[1].innerHTML = '用户已存在'
+                        register_btn2.parentNode.children[1].style.color = 'red'
+                    }
+                    if(result.code === 200){ //注册成功
+                        register_btn2.parentNode.children[1].innerHTML = '注册成功，3s后关闭注册页面'
+                        register_btn2.parentNode.children[1].style.color = 'lightgreen'
+                        setTimeout(()=>{
+                            registerArea.children[2].click()
+                        }, 3000)
+                    }
+                }
+                register()
+
+            }else {
+                register_btn2.parentNode.children[1].innerHTML = '注册名不能为空'
+                register_btn2.parentNode.children[1].style.color = 'red'
+            }
+            
+        })
+
+        //登录
+        let loginArea_in_btn2 = document.querySelector('.loginArea_in_btn2')
+        let login_img = document.querySelector('.login_img')
+        //每次打开网页都从本地登录一次
+        login_img.children[0].src = `${localStorage.getItem('img')}`
+        login_img.nextElementSibling.innerHTML = `${localStorage.getItem('username')}`
+
+        loginArea_in_btn2.addEventListener('click', ()=> {
+            if(loginArea_in_btn2.parentNode.children[0].value){ //登录名不为空
+                async function login() {
+                    let result = await http({
+                        method: 'post',
+                        url: 'http://runninglili.club:8080/login',
+                        data: {
+                            username: `${loginArea_in.children[0].value}`
+                        }
+                    })
+                    if(result.code === 403){    //用户不存在
+                        loginArea_in_btn2.parentNode.children[1].innerHTML = '用户不存在'
+                        loginArea_in_btn2.parentNode.children[1].style.color = 'red'
+                    }
+                    if(result.code === 200){ //登录成功
+                        localStorage.setItem('token',`${result.token}`)
+                        localStorage.setItem('img', `${result.data.avatar}`)
+                        localStorage.setItem('username', `${result.data.username}`)
+                        //改变头像
+                        login_img.children[0].src = `${result.data.avatar}`
+                        //改变名字
+                        login_img.nextElementSibling.innerHTML = `${result.data.username}`
+
+                        
+                        loginArea_in_btn2.parentNode.children[1].innerHTML = '登录成功，3s后关闭注册页面'
+                        loginArea_in_btn2.parentNode.children[1].style.color = 'lightgreen'
+                        setTimeout(()=>{
+                            loginArea_in.children[2].click()
+                        }, 3000)
+                    }
+                }
+                login()
+            }else {
+                loginArea_in_btn2.parentNode.children[1].innerHTML = '登录名不能为空'
+                loginArea_in_btn2.parentNode.children[1].style.color = 'red'
+            }
+        })
+        
+        //发送
+        let send_btn = document.querySelector('.send')
+        send_btn.addEventListener('click', ()=>{
+            if(send_btn.previousElementSibling.value){ //发送内容不为空
+                async function send() {
+                    let result = await http({
+                        method: 'post',
+                        url: 'http://runninglili.club:8080/sendMes',
+                        data: {
+                            words: `${send_btn.previousElementSibling.value}`,
+                            // Authorization: `${localStorage.getItem('token')}`
+                        },
+                        headers: `${localStorage.getItem('token')}`
+                    })
+                    if(result.code === 201){
+                        alert('请先登录')
+                    }
+                    getAllData()
+                }
+                send()
+            }else {
+                alert('发送内容不能为空')
+            }
+        }) 
+
+        
+    </script>
+</body>
+</html>
